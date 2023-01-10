@@ -1,0 +1,71 @@
+select hijo.nombre_hijo, hijo.edad_hijo, persona.nombre_persona, empresa.nombre_empresa
+from hijo
+inner join persona on hijo.id_persona = persona.id_persona
+inner join trabajo on trabajo.id_persona = persona.id_persona
+inner join empresa on trabajo.id_empresa = empresa.id_empresa
+group by hijo.edad_hijo
+having hijo.edad_hijo > 5;
+
+select min(aportacion.monto_aportacion) as Minima_aportacion,
+avg(aportacion.monto_aportacion) as Promedio_aportaciones,
+persona.nombre_persona, max(aportacion.monto_aportacion) as Maxima_aportacion
+from persona
+inner join trabajo on trabajo.id_persona = persona.id_persona
+inner join aportacion on trabajo.id_aportacion = aportacion.id_aportacion
+having avg(monto_aportacion);
+
+select avg(aportacion.monto_aportacion) as Promedio_aportaciones,
+empresa.nombre_empresa, max(aportacion.monto_aportacion) as Maxima_aportacion
+from empresa
+inner join trabajo on trabajo.id_empresa = empresa.id_empresa
+inner join aportacion on trabajo.id_aportacion = aportacion.id_aportacion
+having sum(monto_aportacion);
+
+select persona.nombre_persona, aportacion.monto_aportacion
+from persona
+inner join trabajo on trabajo.id_persona = persona.id_persona
+inner join aportacion on trabajo.id_aportacion = aportacion.id_aportacion
+group by nombre_persona
+order by monto_aportacion desc;
+
+select codigo.nombre_codigo, codigo.estado_codigo, afiliacion.tipo_afiliacion
+from codigo
+inner join baselegal on codigo.id_baselegal = baselegal.id_baselegal
+inner join afiliacion on baselegal.id_afiliacion = afiliacion.id_afiliacion
+where estado_codigo = 'activo' and tipo_afiliacion = 'asegurado'
+group by nombre_codigo;
+
+select  usuario.nombre_usuario, perfil.descripcion_perfil, rol.nombre_rol, rol.detalle_rol
+from rol
+inner join perfil on rol.id_perfil = perfil.id_perfil
+inner join usuario on perfil.id_usuario = usuario.id_usuario
+where nombre_rol = 'Pensionista' and detalle_rol = 'Estado'
+group by nombre_perfil;
+
+select persona.nombre_persona,aportacion.fecha_aportacion,
+max(aportacion.monto_aportacion) as monto_aportacion
+from persona
+inner join trabajo on trabajo.id_persona = persona.id_persona
+inner join aportacion on trabajo.id_aportacion = aportacion.id_aportacion;
+
+select persona.nombre_persona,aportacion.fecha_aportacion,
+min(aportacion.monto_aportacion) as aportacion_minima,
+avg(aportacion.monto_aportacion) as promedio_aportaciones
+from persona
+inner join trabajo on trabajo.id_persona = persona.id_persona
+inner join aportacion on trabajo.id_aportacion = aportacion.id_aportacion;
+
+select persona.nombre_persona, persona.fecha_nac_persona, afiliacion.tipo_afiliacion
+from persona
+inner join trabajo on trabajo.id_persona = persona.id_persona
+inner join afiliacion on trabajo.id_afiliacion = afiliacion.id_afiliacion
+where fecha_nac_persona between '06-10-1952' and '07-09-1999'
+and tipo_afiliacion = 'asegurado';
+
+
+select  usuario.nombre_usuario, rol.nombre_rol
+from rol
+inner join perfil on rol.id_perfil = perfil.id_perfil
+inner join usuario on perfil.id_usuario = usuario.id_usuario
+where length(nombre_usuario)=6 and nombre_rol = 'Pensionista';
+
